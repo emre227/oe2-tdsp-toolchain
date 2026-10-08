@@ -5,6 +5,8 @@ bin/
 .metadata/
 # Xplorer caches
 .cache/
+# Xplorer-generated makefile (absolute paths)
+tdsp/*/Makefile
 
 # --- MATLAB / Simulink ---
 # Code generation and caches
