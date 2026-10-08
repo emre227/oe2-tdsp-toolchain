@@ -1,38 +1,38 @@
-%% Generate Lark-tdsp.c from tdsp.bin
-binFile   = 'tdsp.bin';
-outFile   = 'Lark-tdsp.c';
-arrayName = 'tdsp_image';
-maxBytes  = hex2dec('48000');           % DRAM0 start to SRAM end (0x5FFF0000-0x60037FFF)
+%% Generate Lark-tdsp.c from the tdsp_hw build
+% Build tdsp_hw (Deploy) in Xplorer first, then copy output/Lark-tdsp.c into the firmware.
 
-% Read binary image
-binId = fopen(binFile, 'r');
-assert(binId ~= -1, '%s not found', binFile);
-imageBytes = fread(binId, inf, 'uint8');
-fclose(binId);
+repo = fileparts(fileparts(fileparts(which('gen_lark_tdsp_script'))));
+elfFile = fullfile(repo, 'tdsp', 'tdsp_hw', 'bin', 'hifi3z_lark_RI_2022_10', 'Deploy', 'tdsp_hw');
+binFile = fullfile(repo, 'output', 'tdsp.bin');
+outFile = fullfile(repo, 'output', 'Lark-tdsp.c');
 
-assert(numel(imageBytes) <= maxBytes, ...
-       '%s too large (%d bytes): segment outside 0x5FFF0000-0x60037FFF?', binFile, numel(imageBytes));
+% ELF -> binary image (base 0x5FFF0000)
+status = system(sprintf('xt-objcopy -O binary "%s" "%s"', elfFile, binFile));
+assert(status == 0, 'xt-objcopy failed');
 
-% Pad to word boundary, convert to 32-bit words (little endian)
-numWords = ceil(numel(imageBytes) / 4);
-imageBytes(end+1 : numWords*4) = 0;
-imageWords = typecast(uint8(imageBytes), 'uint32');
+fid = fopen(binFile, 'r');
+bytes = fread(fid, inf, 'uint8');
+fclose(fid);
 
-% Write C file
-outId = fopen(outFile, 'w');
-fprintf(outId, '/* TDSP program image, generated from %s. Do not edit. */\n', binFile);
-fprintf(outId, '#include <stdint.h>\n\n');
-fprintf(outId, '/* Target address 0x5FFF0000, %d words */\n', numWords);
-fprintf(outId, 'const uint32_t %s[%d] = {\n', arrayName, numWords);
+% image must end before SRAM end (0x60037FFF), otherwise a segment is outside the RAM
+assert(numel(bytes) <= hex2dec('48000'), 'tdsp.bin too large (%d bytes)', numel(bytes));
 
-wordsPerLine = 8;
-for first = 1 : wordsPerLine : numWords
-    last = min(first + wordsPerLine - 1, numWords);
-    fprintf(outId, '    ');
-    fprintf(outId, '0x%08X, ', imageWords(first:last));
-    fprintf(outId, '\n');
+% pad to 32 bit, little endian
+nWords = ceil(numel(bytes) / 4);
+bytes(end+1 : nWords*4) = 0;
+words = typecast(uint8(bytes), 'uint32');
+
+fid = fopen(outFile, 'w');
+fprintf(fid, '/* TDSP program image, generated from tdsp.bin. Do not edit. */\n');
+fprintf(fid, '#include <stdint.h>\n\n');
+fprintf(fid, '/* target address 0x5FFF0000, %d words */\n', nWords);
+fprintf(fid, 'const uint32_t tdsp_image[%d] = {\n', nWords);
+for i = 1:8:nWords
+    fprintf(fid, '    ');
+    fprintf(fid, '0x%08X, ', words(i:min(i+7, nWords)));
+    fprintf(fid, '\n');
 end
+fprintf(fid, '};\n');
+fclose(fid);
 
-fprintf(outId, '};\n');
-fclose(outId);
-disp(['Generated ' outFile]);
+fprintf('Generated %s (%d bytes)\n', outFile, numel(bytes));

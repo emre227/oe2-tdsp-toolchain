@@ -1,6 +1,9 @@
 %% Clear
 clear;
 clc;
+%% Add HRIR paths
+repoRoot = fileparts(fileparts(fileparts(which('load_hrtf_coeffs'))));
+addpath(fullfile(repoRoot, 'matlab', 'HRIRS'), fullfile(repoRoot, 'matlab', 'models'));
 %% Load Coeffs
 %S = load("sil_HRIR-cipic_subject_162-200koeff-280_0.mat");
 S1 = load("HRIR-cipic_subject_021-200koeff-80_0.mat");
