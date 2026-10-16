@@ -2,6 +2,16 @@
 <BuildTarget tool="xtensa" version="1.0">
     <BuildSettings>
         <BaseSettings path="project">
+            <PreprocessorOptions>
+                <StringListMapOptions>
+                    <StringListMapEntry>
+                        <key>Includes</key>
+                        <value flag="-I" inheritance="prepend">
+                            <ListEntry>C:\Users\eoencue1\Documents\oe2-tdsp-toolchain\tdsp_data_container</ListEntry>
+                        </value>
+                    </StringListMapEntry>
+                </StringListMapOptions>
+            </PreprocessorOptions>
             <CompilerOptions>
                 <SingleFlagMapOptions>
                     <SingleFlagMapEntry>

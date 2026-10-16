@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'hrtf_filter'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.33
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Wed Sep 30 14:02:14 2026
+ * C/C++ source code generated on : Wed Oct 14 12:20:48 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom Processor
@@ -70,6 +70,29 @@ preprocessor word size checks.
 #endif
 
 /* Skipping ulong_long/long_long check: insufficient preprocessor integer range. */
+
+/* Macros for accessing real-time model data structure */
+#ifndef rtmGetErrorStatus
+#define rtmGetErrorStatus(rtm)         (*((rtm)->errorStatus))
+#endif
+
+#ifndef rtmSetErrorStatus
+#define rtmSetErrorStatus(rtm, val)    (*((rtm)->errorStatus) = (val))
+#endif
+
+#ifndef rtmGetErrorStatusPointer
+#define rtmGetErrorStatusPointer(rtm)  (rtm)->errorStatus
+#endif
+
+#ifndef rtmSetErrorStatusPointer
+#define rtmSetErrorStatusPointer(rtm, val) ((rtm)->errorStatus = (val))
+#endif
+
+extern const int16_T rtCP_pooled_mOrXcNbjucVG[800];
+
+#define rtCP_DirectLookupTablenD_table rtCP_pooled_mOrXcNbjucVG  /* Computed Parameter: rtCP_DirectLookupTablenD_table
+                                                                  * Referenced by: '<Root>/Direct Lookup Table (n-D)'
+                                                                  */
 #endif                                 /* hrtf_filter_private_h_ */
 
 /*

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'hrtf_filter'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.33
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Wed Sep 30 14:02:14 2026
+ * C/C++ source code generated on : Wed Oct 14 12:20:48 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom Processor
@@ -22,45 +22,48 @@
 #include <string.h>
 #include "hrtf_filter_private.h"
 
-/* Model step function */
-void hrtf_filter_step(RT_MODEL_hrtf_filter_T *const hrtf_filter_M, int16_T
-                      hrtf_filter_U_audio_in, uint8_T hrtf_filter_U_channel,
-                      uint8_T hrtf_filter_U_source, int16_T
-                      *hrtf_filter_Y_audio_out)
+/* System initialize for referenced model: 'hrtf_filter' */
+void hrtf_filter_Init(DW_hrtf_filter_f_T *localDW)
 {
-  DW_hrtf_filter_T *hrtf_filter_DW = hrtf_filter_M->dwork;
+  /* InitializeConditions for DiscreteFir: '<Root>/HRIR-FIR' */
+  localDW->HRIRFIR_circBuf = 0;
+  memset(&localDW->HRIRFIR_states[0], 0, 199U * sizeof(int16_T));
+}
+
+/* Output and update for referenced model: 'hrtf_filter' */
+void hrtf_filter(const int16_T *rtu_audio_in, const uint32_T *rtu_channel, const
+                 uint32_T *rtu_source, int16_T *rty_audio_out,
+                 DW_hrtf_filter_f_T *localDW)
+{
   int32_T acc1;
   int32_T cff;
   int32_T j;
   int32_T tableOffset;
-  uint8_T tmp;
-  uint8_T tmp_0;
+  uint32_T tmp;
+  uint32_T tmp_0;
 
-  /* LookupNDDirect: '<Root>/Direct Lookup Table (n-D)' incorporates:
-   *  Inport: '<Root>/channel'
-   *  Inport: '<Root>/source'
+  /* LookupNDDirect: '<Root>/Direct Lookup Table (n-D)'
    *
    * About '<Root>/Direct Lookup Table (n-D)':
    *  3-dimensional Direct Look-Up returning a Vector,
    *  which is contiguous for column-major array
    *     Remove protection against out-of-range input in generated code: 'off'
    *   */
-  if (hrtf_filter_U_source <= 1) {
-    tmp = hrtf_filter_U_source;
+  if (*rtu_source <= 1U) {
+    tmp = *rtu_source;
   } else {
     tmp = 1U;
   }
 
-  if (hrtf_filter_U_channel <= 1) {
-    tmp_0 = hrtf_filter_U_channel;
+  if (*rtu_channel <= 1U) {
+    tmp_0 = *rtu_channel;
   } else {
     tmp_0 = 1U;
   }
 
-  tableOffset = tmp * 400 + tmp_0 * 200;
+  tableOffset = (int32_T)tmp * 400 + (int32_T)tmp_0 * 200;
 
   /* DiscreteFir: '<Root>/HRIR-FIR' incorporates:
-   *  Inport: '<Root>/audio_in'
    *  LookupNDDirect: '<Root>/Direct Lookup Table (n-D)'
    *
    * About '<Root>/Direct Lookup Table (n-D)':
@@ -68,18 +71,17 @@ void hrtf_filter_step(RT_MODEL_hrtf_filter_T *const hrtf_filter_M, int16_T
    *  which is contiguous for column-major array
    *     Remove protection against out-of-range input in generated code: 'off'
    *   */
-  acc1 = hrtf_filter_U_audio_in *
-    hrtf_filter_ConstP.DirectLookupTablenD_table[tableOffset];
+  acc1 = *rtu_audio_in * rtCP_DirectLookupTablenD_table[tableOffset];
   cff = 1;
-  for (j = hrtf_filter_DW->HRIRFIR_circBuf; j < 199; j++) {
-    acc1 += hrtf_filter_ConstP.DirectLookupTablenD_table[cff + tableOffset] *
-      hrtf_filter_DW->HRIRFIR_states[j];
+  for (j = localDW->HRIRFIR_circBuf; j < 199; j++) {
+    acc1 += rtCP_DirectLookupTablenD_table[cff + tableOffset] *
+      localDW->HRIRFIR_states[j];
     cff++;
   }
 
-  for (j = 0; j < hrtf_filter_DW->HRIRFIR_circBuf; j++) {
-    acc1 += hrtf_filter_ConstP.DirectLookupTablenD_table[cff + tableOffset] *
-      hrtf_filter_DW->HRIRFIR_states[j];
+  for (j = 0; j < localDW->HRIRFIR_circBuf; j++) {
+    acc1 += rtCP_DirectLookupTablenD_table[cff + tableOffset] *
+      localDW->HRIRFIR_states[j];
     cff++;
   }
 
@@ -93,58 +95,35 @@ void hrtf_filter_step(RT_MODEL_hrtf_filter_T *const hrtf_filter_M, int16_T
     tableOffset = -32768;
   }
 
-  /* Outport: '<Root>/audio_out' incorporates:
-   *  DataTypeConversion: '<Root>/Data Type Conversion'
-   */
-  *hrtf_filter_Y_audio_out = (int16_T)tableOffset;
+  *rty_audio_out = (int16_T)tableOffset;
 
-  /* Update for DiscreteFir: '<Root>/HRIR-FIR' incorporates:
-   *  Inport: '<Root>/audio_in'
-   */
+  /* End of DataTypeConversion: '<Root>/Data Type Conversion' */
+
+  /* Update for DiscreteFir: '<Root>/HRIR-FIR' */
   /* Update circular buffer index */
-  hrtf_filter_DW->HRIRFIR_circBuf--;
-  if (hrtf_filter_DW->HRIRFIR_circBuf < 0) {
-    hrtf_filter_DW->HRIRFIR_circBuf = 198;
+  localDW->HRIRFIR_circBuf--;
+  if (localDW->HRIRFIR_circBuf < 0) {
+    localDW->HRIRFIR_circBuf = 198;
   }
 
   /* Update circular buffer */
-  hrtf_filter_DW->HRIRFIR_states[hrtf_filter_DW->HRIRFIR_circBuf] =
-    hrtf_filter_U_audio_in;
+  localDW->HRIRFIR_states[localDW->HRIRFIR_circBuf] = *rtu_audio_in;
 
   /* End of Update for DiscreteFir: '<Root>/HRIR-FIR' */
 }
 
 /* Model initialize function */
-void hrtf_filter_initialize(RT_MODEL_hrtf_filter_T *const hrtf_filter_M, int16_T
-  *hrtf_filter_U_audio_in, uint8_T *hrtf_filter_U_channel, uint8_T
-  *hrtf_filter_U_source, int16_T *hrtf_filter_Y_audio_out)
+void hrtf_filter_initialize(const char_T **rt_errorStatus,
+  RT_MODEL_hrtf_filter_T *const hrtf_filter_M, DW_hrtf_filter_f_T *localDW)
 {
-  DW_hrtf_filter_T *hrtf_filter_DW = hrtf_filter_M->dwork;
-
   /* Registration code */
 
+  /* initialize error status */
+  rtmSetErrorStatusPointer(hrtf_filter_M, rt_errorStatus);
+
   /* states (dwork) */
-  (void) memset((void *)hrtf_filter_DW, 0,
-                sizeof(DW_hrtf_filter_T));
-
-  /* external inputs */
-  *hrtf_filter_U_audio_in = 0;
-  *hrtf_filter_U_channel = 0U;
-  *hrtf_filter_U_source = 0U;
-
-  /* external outputs */
-  *hrtf_filter_Y_audio_out = 0;
-
-  /* InitializeConditions for DiscreteFir: '<Root>/HRIR-FIR' */
-  hrtf_filter_DW->HRIRFIR_circBuf = 0;
-  memset(&hrtf_filter_DW->HRIRFIR_states[0], 0, 199U * sizeof(int16_T));
-}
-
-/* Model terminate function */
-void hrtf_filter_terminate(RT_MODEL_hrtf_filter_T *const hrtf_filter_M)
-{
-  /* (no terminate code required) */
-  UNUSED_PARAMETER(hrtf_filter_M);
+  (void) memset((void *)localDW, 0,
+                sizeof(DW_hrtf_filter_f_T));
 }
 
 /*

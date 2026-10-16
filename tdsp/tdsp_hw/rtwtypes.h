@@ -7,14 +7,9 @@
  *
  * Code generated for Simulink model 'hrtf_filter'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.33
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Wed Sep 30 14:02:14 2026
- *
- * Target selection: ert.tlc
- * Embedded hardware selection: Custom Processor->Custom Processor
- * Code generation objectives: Unspecified
- * Validation result: Not run
+ * C/C++ source code generated on : Wed Oct 14 12:20:48 2026
  */
 
 #ifndef RTWTYPES_H

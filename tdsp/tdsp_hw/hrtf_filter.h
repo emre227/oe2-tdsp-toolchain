@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'hrtf_filter'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.33
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Wed Sep 30 14:02:14 2026
+ * C/C++ source code generated on : Wed Oct 14 12:20:48 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom Processor
@@ -26,48 +26,30 @@
 
 #include "hrtf_filter_types.h"
 #include <string.h>
-#include "rt_defines.h"
 
-/* Macros for accessing real-time model data structure */
-#ifndef rtmGetErrorStatus
-#define rtmGetErrorStatus(rtm)         ((rtm)->errorStatus)
-#endif
-
-#ifndef rtmSetErrorStatus
-#define rtmSetErrorStatus(rtm, val)    ((rtm)->errorStatus = (val))
-#endif
-
-/* Block states (default storage) for system '<Root>' */
+/* Block states (default storage) for model 'hrtf_filter' */
 typedef struct {
   int32_T HRIRFIR_circBuf;             /* '<Root>/HRIR-FIR' */
   int16_T HRIRFIR_states[199];         /* '<Root>/HRIR-FIR' */
-} DW_hrtf_filter_T;
-
-/* Constant parameters (default storage) */
-typedef struct {
-  /* Computed Parameter: DirectLookupTablenD_table
-   * Referenced by: '<Root>/Direct Lookup Table (n-D)'
-   */
-  int16_T DirectLookupTablenD_table[800];
-} ConstP_hrtf_filter_T;
+} DW_hrtf_filter_f_T;
 
 /* Real-time Model Data Structure */
 struct tag_RTM_hrtf_filter_T {
-  const char_T * volatile errorStatus;
-  DW_hrtf_filter_T *dwork;
+  const char_T **errorStatus;
 };
 
-/* Constant parameters (default storage) */
-extern const ConstP_hrtf_filter_T hrtf_filter_ConstP;
+typedef struct {
+  DW_hrtf_filter_f_T rtdw;
+  RT_MODEL_hrtf_filter_T rtm;
+} MdlrefDW_hrtf_filter_T;
 
-/* Model entry point functions */
-extern void hrtf_filter_initialize(RT_MODEL_hrtf_filter_T *const hrtf_filter_M,
-  int16_T *hrtf_filter_U_audio_in, uint8_T *hrtf_filter_U_channel, uint8_T
-  *hrtf_filter_U_source, int16_T *hrtf_filter_Y_audio_out);
-extern void hrtf_filter_step(RT_MODEL_hrtf_filter_T *const hrtf_filter_M,
-  int16_T hrtf_filter_U_audio_in, uint8_T hrtf_filter_U_channel, uint8_T
-  hrtf_filter_U_source, int16_T *hrtf_filter_Y_audio_out);
-extern void hrtf_filter_terminate(RT_MODEL_hrtf_filter_T *const hrtf_filter_M);
+/* Model reference registration function */
+extern void hrtf_filter_initialize(const char_T **rt_errorStatus,
+  RT_MODEL_hrtf_filter_T *const hrtf_filter_M, DW_hrtf_filter_f_T *localDW);
+extern void hrtf_filter_Init(DW_hrtf_filter_f_T *localDW);
+extern void hrtf_filter(const int16_T *rtu_audio_in, const uint32_T *rtu_channel,
+  const uint32_T *rtu_source, int16_T *rty_audio_out, DW_hrtf_filter_f_T
+  *localDW);
 
 /*-
  * The generated code includes comments that allow you to trace directly
