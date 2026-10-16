@@ -5,12 +5,12 @@ Firmware: [emre227/open-earable-2](https://github.com/emre227/open-earable-2), b
 
 ## Workflow
 
-1. Open the wrapper model `tdsp_wrapper_model.slx` in the (`matlab/models`) and load the model data with `load_model_data.m` in the `matlab/scripts` folder.
+1. Open the wrapper model `tdsp_model_wrapper.slx` in (`matlab/models`) and load the model data with `load_model_data.m` in the `matlab/scripts` folder.
 2. Generate code from the Simulink model with Embedded Coder (*Generate code only*).
-2. Copy the generated code from the build folder into `tdsp/tdsp_hw`.
-3. Build `tdsp_hw` (target *Deploy*) in Xtensa Xplorer
-4. Run `matlab/scripts/gen_lark_tdsp_script.m`, this creates `output/Lark-tdsp.c`
-5. Copy `Lark-tdsp.c` into the firmware, build and flash. The nRF5340 loads the image into the DSP at boot.
+3. Copy the generated code from the build folder into `tdsp/tdsp_hw`.
+4. Build `tdsp_hw` (target *Deploy*) in Xtensa Xplorer
+5. Run `matlab/scripts/gen_lark_tdsp_script.m`, this creates `output/Lark-tdsp.c`
+6. Copy `Lark-tdsp.c` into the firmware, build and flash. The nRF5340 loads the image into the DSP at boot.
 
 ## Requirements
 
