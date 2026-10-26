@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tdsp_model_wrapper'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.18
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Thu Oct 15 14:49:19 2026
+ * C/C++ source code generated on : Mon Oct 26 16:02:05 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom
@@ -26,9 +26,7 @@
 
 #include "tdsp_model_wrapper_types.h"
 #include "tdsp_data_container.h"
-#include "hrtf_filter.h"
 #include <stddef.h>
-#include <string.h>
 
 /* Macros for accessing real-time model data structure */
 #ifndef rtmGetErrorStatus
@@ -42,11 +40,6 @@
 #ifndef rtmGetErrorStatusPointer
 #define rtmGetErrorStatusPointer(rtm)  ((const char_T **)(&((rtm)->errorStatus)))
 #endif
-
-/* Block states (default storage) for system '<Root>' */
-typedef struct {
-  MdlrefDW_hrtf_filter_T Model_InstanceData;/* '<Root>/Model' */
-} DW_tdsp_model_wrapper_T;
 
 /* External inputs (root inport signals with default storage) */
 typedef struct {
@@ -63,9 +56,6 @@ typedef struct {
 struct tag_RTM_tdsp_model_wrapper_T {
   const char_T *errorStatus;
 };
-
-/* Block states (default storage) */
-extern DW_tdsp_model_wrapper_T tdsp_model_wrapper_DW;
 
 /* External inputs (root inport signals with default storage) */
 extern ExtU_tdsp_model_wrapper_T tdsp_model_wrapper_U;

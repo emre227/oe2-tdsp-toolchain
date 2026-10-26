@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tdsp_model_wrapper'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.18
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Thu Oct 15 14:49:19 2026
+ * C/C++ source code generated on : Mon Oct 26 16:02:05 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom

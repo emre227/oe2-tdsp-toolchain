@@ -5,11 +5,11 @@
  *
  * File: rtwtypes.h
  *
- * Code generated for Simulink model 'hrtf_filter'.
+ * Code generated for Simulink model 'hrtf_v5_fest_olhead_ed1_38_R_L_2025a'.
  *
- * Model version                  : 1.33
+ * Model version                  : 1.19
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Wed Oct 14 12:20:48 2026
+ * C/C++ source code generated on : Mon Oct 26 16:02:01 2026
  */
 
 #ifndef RTWTYPES_H
@@ -28,7 +28,7 @@
 
 /*=======================================================================*
  * Target hardware information
- *   Device type: Custom Processor->Custom Processor
+ *   Device type: Custom Processor->Custom
  *   Number of bits:     char:   8    short:   16    int:  32
  *                       long:  32    long long:  64
  *                       native word size:  32

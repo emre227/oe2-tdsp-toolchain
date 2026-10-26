@@ -15,10 +15,6 @@
             <CompilerOptions>
                 <SingleFlagMapOptions>
                     <SingleFlagMapEntry>
-                        <key>EnableSIMD</key>
-                        <value flag="-LNO:simd" use="true"/>
-                    </SingleFlagMapEntry>
-                    <SingleFlagMapEntry>
                         <key>UseDspCoprocessor</key>
                         <value flag="-mcoproc" use="true"/>
                     </SingleFlagMapEntry>
