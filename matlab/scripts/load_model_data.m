@@ -10,20 +10,20 @@ addpath(fullfile(repoRoot, 'matlab', 'HRIRS'), fullfile(repoRoot, 'matlab', 'mod
 Simulink.importExternalCTypes(fullfile(repoRoot, 'tdsp_data_container', 'tdsp_data_container.h'));
 %% Copy Config
 cs = copy(getActiveConfigSet('tdsp_model_wrapper'));
-attachConfigSet('hrtf_v5_fest_olhead_ed1_38_R_L_2025a', cs, true);
-setActiveConfigSet('hrtf_v5_fest_olhead_ed1_38_R_L_2025a', cs.Name);
+attachConfigSet('HRTF_IIR_Baris_FixedPoint_v2', cs, true);
+setActiveConfigSet('HRTF_IIR_Baris_FixedPoint_v2', cs.Name);
 %% Build folder
 Simulink.fileGenControl('set', ...
     'CodeGenFolder', fullfile(repoRoot, 'build', 'codegen'), ...
     'CacheFolder',   fullfile(repoRoot, 'build', 'cache'), ...
     'createDir', true);
 %% Load Coeffs IIR
-S = load("koeff_parameter_iir");
+S = load("koeff_parameter_iir_16");
 
-ALPHA = single(transpose([S.Alpha(2,:) ; S.Alpha(1,:)]));
-BETA  = single(transpose([S.Beta(2,:) ; S.Beta(1,:)]));
-DELAY = single([S.Delay(2) S.Delay(1)]);
-GAIN  = single([ S.Gain(2)  S.Gain(1)]);
+ALPHA = transpose([S.Alpha(2,:) ; S.Alpha(1,:)]);
+BETA  = transpose([S.Beta(2,:) ; S.Beta(1,:)]);
+DELAY = [S.Delay(2) S.Delay(1)];
+GAIN  = [ S.Gain(2)  S.Gain(1)];
 
 %% Load Coeffs
 %S = load("sil_HRIR-cipic_subject_162-200koeff-280_0.mat");
@@ -43,3 +43,9 @@ HRIR =  cat(3, HRIR1, HRIR2);
 %% Simulation parameters (fixedpoint designer)
 T_ch  = 2; %s
 T_sim = 2*T_ch; %s
+
+
+%%
+mdl = 'HRTF_IIR_BARIS_FixedPointv2';
+load_system(mdl);
+set_param(mdl,'DataTypeOverride','Double');

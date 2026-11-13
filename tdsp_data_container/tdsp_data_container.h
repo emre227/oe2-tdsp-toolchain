@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <assert.h>
 
-#define DATA_CONTAINER_SIZE (13 * 4)  // number of vars * 4, all vars must be 32 bit
+#define DATA_CONTAINER_SIZE (14 * 4)  // number of vars * 4, all vars must be 32 bit
 
 
 typedef struct tdsp_data_container {
@@ -27,6 +27,7 @@ typedef struct tdsp_data_container {
     int32_t imu_x_gyro;        // IMU x-axis gyroscope
     int32_t imu_y_gyro;        // IMU y-axis gyroscope
     int32_t imu_z_gyro;        // IMU z-axis gyroscope
+    uint32_t imu_time_us;      // IMU timestamp in microseconds
 
     // data sync
     uint32_t time_stamp;        // timestamp for data sync, is set when new data is sent to tdsp

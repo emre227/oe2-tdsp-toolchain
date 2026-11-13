@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tdsp_model_wrapper'.
  *
- * Model version                  : 1.18
+ * Model version                  : 1.25
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Mon Oct 26 16:02:05 2026
+ * C/C++ source code generated on : Wed Oct 28 14:34:59 2026
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Custom Processor->Custom
@@ -19,7 +19,7 @@
 
 #include "tdsp_model_wrapper.h"
 #include <string.h>
-#include "hrtf_v5_fest_olhead_ed1_38_R_L_2025a.h"
+#include "HRTF_IIR_Baris_FixedPoint_v2.h"
 
 /* External inputs (root inport signals with default storage) */
 ExtU_tdsp_model_wrapper_T tdsp_model_wrapper_U;
@@ -40,7 +40,7 @@ void tdsp_model_wrapper_step(void)
    *  Inport: '<Root>/data_container'
    *  Outport: '<Root>/audio_out'
    */
-  hrtf_v5_fest_olhead_ed1_38_R_L_(&tdsp_model_wrapper_U.audio_in,
+  HRTF_IIR_Baris_FixedPoint_v2(&tdsp_model_wrapper_U.audio_in,
     &tdsp_model_wrapper_U.data_container.channel_select,
     &tdsp_model_wrapper_Y.audio_out);
 }
@@ -60,14 +60,14 @@ void tdsp_model_wrapper_initialize(void)
   tdsp_model_wrapper_Y.audio_out = 0;
 
   /* Model Initialize function for ModelReference Block: '<Root>/Model1' */
-  hrtf_v5_fest_olhead__initialize(rtmGetErrorStatusPointer(tdsp_model_wrapper_M));
+  HRTF_IIR_Baris_Fixed_initialize(rtmGetErrorStatusPointer(tdsp_model_wrapper_M));
 
   /* SystemInitialize for ModelReference: '<Root>/Model1' incorporates:
    *  Inport: '<Root>/audio_in'
    *  Inport: '<Root>/data_container'
    *  Outport: '<Root>/audio_out'
    */
-  hrtf_v5_fest_olhead_ed1_38_Init();
+  HRTF_IIR_Baris_FixedPoint__Init();
 }
 
 /* Model terminate function */
