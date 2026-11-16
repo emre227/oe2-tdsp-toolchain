@@ -2,15 +2,15 @@
 clear;
 clc;
 %%
-w_tab = readtable("C:\Users\eoencue1\Desktop\Messungen\3\OpenEarable-0427-R-GYROSCOPE.csv");
-a_tab = readtable("C:\Users\eoencue1\Desktop\Messungen\3\OpenEarable-0427-R-ACCELEROMETER.csv");
+w_tab = readtable("C:\Users\eoencue1\Downloads\OpenEarable-0427-R-GYROSCOPE(1).csv");
+a_tab = readtable("C:\Users\eoencue1\Downloads\OpenEarable-0427-R-ACCELEROMETER(1).csv");
 %%
 
 w_data = table2array(w_tab);
 a_data = table2array(a_tab);
 
 %%
-N = 750;
+N = 1093;
 t = (0:N-1)' / 50;
 dt = 1/50;
 alpha = 0.99;
@@ -29,3 +29,13 @@ n    = cross(a0, u);
 phi0 = atan2(norm(n), dot(a0, u));
 n    = n / norm(n);
 q0   = [cos(phi0/2); n*sin(phi0/2)];
+psi0 = atan2(2*(q0(1)*q0(4) + q0(2)*q0(3)), 1 - 2*(q0(3)^2 + q0(4)^2));
+%% hrtf
+ch = 1;
+n_directions = 50;
+
+hrtf = load("C:\Users\eoencue1\Downloads\hrir_cipic_17_horizontal.mat");
+hrir_r = hrtf.irR';
+hrir_l = hrtf.irL';
+
+hrir = cat(3,hrtf.irR, hrtf.irL);
